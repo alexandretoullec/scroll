@@ -41,8 +41,46 @@ window.addEventListener('scroll', ()=>{
         navBar.classList.remove('fixed-nav')
     }
 
+    if (scrollHeight > 500) {
+        topLink.classList.add('show-link')
+    } else {
+        topLink.classList.remove('show-link')
+    }
+
 })
 
 
 // ********** smooth scroll ************
 // select links
+
+const scrollLink = document.querySelectorAll('.scroll-link');
+
+scrollLink.forEach((link) => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        // navgate to specific spot
+        const id = e.currentTarget.getAttribute('href').slice(1);
+        const element = document.getElementById(id);
+        // calculate the heights
+        const navHeight = navBar.getBoundingClientRect().height;
+        const containerHeight = linksContainer.getBoundingClientRect().height;
+        const fixedNav = navBar.classList.contains('fixed-nav');
+        let position = element.offsetTop - navHeight;
+
+        if (!fixedNav) {
+            position = position - navHeight;
+        }
+
+        if (navHeight > 82) {
+            position = position + containerHeight;
+        }
+
+        window.scrollTo({
+            left: 0,
+            top: position
+        });
+
+        linksContainer.style.height=0
+
+    })
+})
